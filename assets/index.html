@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>http2 javascript duplex test</title>
+  <script>
+    async function connect() {
+      const url = 'https://localhost:3000/hello'
+
+      const resp = await fetch(url, {
+        method: 'POST',
+        duplex: 'half'
+      })
+
+      const reader = resp
+        .body
+        .pipeThrough(
+          new TextDecoderStream()
+        ).getReader()
+
+      while(true) {
+        const { value, done } = await reader.read()
+
+        if(done) {
+          break
+        }
+
+        console.log(value)
+      }
+
+      console.log('done!')
+    }    
+  </script>
+</head>
+<body>
+  <button onclick="connect()">Connect</button>
+</body>
+</html>
