@@ -19,7 +19,14 @@ func Info(w http.ResponseWriter, r *http.Request) {
 func Hello(w http.ResponseWriter, r *http.Request) {
 	count := 1
 
-	for count < 6 {
+	for count < 60 {
+		err := r.Context().Err()
+
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
 		msg := fmt.Sprintf("Hello %d times!\n", count)
 		log.Print(msg)
 		fmt.Fprint(w, msg)
