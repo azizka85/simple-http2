@@ -28,8 +28,11 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 		}
 
 		msg := fmt.Sprintf("Hello %d times!\n", count)
+
 		log.Print(msg)
+
 		fmt.Fprint(w, msg)
+
 		time.Sleep(time.Second)
 
 		if f, ok := w.(http.Flusher); ok {
